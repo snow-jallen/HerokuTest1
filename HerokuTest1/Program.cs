@@ -19,6 +19,18 @@ namespace HerokuTest1
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .UsePort();
+    }
+
+    public static class WebHostBuilderExtensions
+    {
+        public static IWebHostBuilder UsePort(this IWebHostBuilder builder)
+        {
+            var port = Environment.GetEnvironmentVariable("PORT");
+            if (string.IsNullOrEmpty(port))
+                return builder;
+            return builder.UseUrls($"http://+:{port}");
+        }
     }
 }
