@@ -20,7 +20,10 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.TestItem) {
+@if (Model.TestItem != null)
+{
+    foreach (var item in Model.TestItem)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Value)
@@ -31,6 +34,23 @@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
+    }
 }
     </tbody>
 </table>
+
+<form asp-page-handler="ConvertConnectionString">
+    <label>DATABASE_URL (from heroku)</label>
+    <input type="text" name="database_url" value="@Model.HerokuDatabaseUrl" />
+    <button type="submit">Convert</button>
+    <table>
+        <tr>
+            <td>.Net Connection String</td>
+            <td>@Model.DotNetConnectionString</td>
+        </tr>
+        <tr>
+            <td>PSQL Connection Command</td>
+            <td>@Model.PsqlConnectionCommand</td>
+        </tr>
+    </table>
+</form>
